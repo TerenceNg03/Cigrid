@@ -6,10 +6,11 @@ IMPORTANT: **PLAGIARISM** is against KTH's **Code of Conduct!!!**
 ## Implemented Features
 
 1. Compile a subset of C++ syntax. See [specification.pdf](./specification.pdf).
-2. Hand written recursive decedent parser.
-3. Compile to **x86 assambly** code.
-4. Use **control flow graph(CFG) IR**.
-5. Various optimizations are implemented.
+2. AST is represented with **a dependent typed tree**. See the paper [Trees that Grow](https://www.cs.tufts.edu/comp/150FP/archive/simon-peyton-jones/trees-that-grow.pdf).
+3. Hand written recursive decedent parser.
+4. Compile to **x86 assambly** code.
+5. Use **control flow graph(CFG) IR**.
+6. Various optimizations are implemented.
    1. **Constant folding** is done at some level.
    2. Efficient **instruction selection**.
    3. Graph optimization includes **jump elemination** and **dead code elemination**.
