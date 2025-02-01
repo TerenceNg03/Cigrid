@@ -1,0 +1,142 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.37.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           app
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com>
+author:         Wu Tianxing
+maintainer:     Wu Tianxing
+license:        BSD3
+build-type:     Simple
+extra-source-files:
+    README.md
+
+library
+  exposed-modules:
+      Asm.Coalescing
+      Asm.Liveness
+      Asm.RegAlloc
+      Asm.RegSpill
+      Asm.Types
+      Asm.Utils
+      Ast.Ast
+      Ast.AstSrc
+      Ast.BOp
+      Ast.CType
+      Ast.Expr
+      Ast.Global
+      Ast.ShowText
+      Ast.Stmt
+      Ast.Token
+      Ast.UOp
+      Diagnose
+      IR.Expr
+      IR.Global
+      IR.Simplify
+      IR.Stmt
+      IR.Types
+      IR.Utils
+      Lex
+      NameAnalysis.Expr
+      NameAnalysis.Global
+      NameAnalysis.Stmt
+      NameAnalysis.Types
+      NameAnalysis.Utils
+      Operator
+      Parse.CTypes
+      Parse.Expr
+      Parse.Global
+      Parse.Stmt
+      Parse.Types
+      Parse.Utils
+      Source
+      TypeCheck.Expr
+      TypeCheck.Global
+      TypeCheck.Operators
+      TypeCheck.Stmt
+      TypeCheck.Types
+      TypeCheck.Utils
+  other-modules:
+      Paths_app
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      QuickCheck
+    , base >=4.7 && <5
+    , containers
+    , diagnose
+    , disjoint-containers
+    , filepath
+    , fmt
+    , hspec
+    , mtl
+    , optics
+    , optparse-applicative
+    , prettyprinter
+    , process
+    , regex
+    , text
+  default-language: Haskell2010
+
+executable app-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_app
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , app
+    , base >=4.7 && <5
+    , containers
+    , diagnose
+    , disjoint-containers
+    , filepath
+    , fmt
+    , hspec
+    , mtl
+    , optics
+    , optparse-applicative
+    , prettyprinter
+    , process
+    , regex
+    , text
+  default-language: Haskell2010
+
+test-suite app-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      AsmSpec
+      LexSpec
+      NameSpec
+      ParseSpec
+      PrettySpec
+      TypeSpec
+      Paths_app
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck
+    , app
+    , base >=4.7 && <5
+    , containers
+    , diagnose
+    , disjoint-containers
+    , filepath
+    , fmt
+    , hspec
+    , mtl
+    , optics
+    , optparse-applicative
+    , prettyprinter
+    , process
+    , regex
+    , text
+  default-language: Haskell2010

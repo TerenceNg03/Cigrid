@@ -1,0 +1,305 @@
+GFuncDecl(TInt, "putchar", {(TInt,"c")})
+
+GFuncDef(TVoid, "empty", {},
+  SScope({
+
+  }))
+
+GFuncDef(TInt, "one_param_return", {(TInt,"x")},
+  SScope({
+    SReturn(EVar("x"))
+  }))
+
+GFuncDef(TInt, "two_params_return", {(TInt,"x") (TInt,"y")},
+  SScope({
+    SReturn(EVar("x"))
+  }))
+
+GFuncDef(TVoid, "call_no_args_call_statemant", {},
+  SScope({
+    SExpr(ECall("empty",{}))
+  }))
+
+GFuncDef(TInt, "call_one_args", {},
+  SScope({
+    SReturn(ECall("one_param_return",{EInt(123)}))
+  }))
+
+GFuncDef(TInt, "call_two_args_var_expr", {(TInt,"x")},
+  SScope({
+    SReturn(ECall("two_params_return",{EInt(321) EVar("x")}))
+  }))
+
+GFuncDef(TVoid, "print_char_consts", {},
+  SScope({
+    SExpr(ECall("putchar",{EChar('A')}))
+    SExpr(ECall("putchar",{EChar('\n')}))
+    SExpr(ECall("putchar",{EChar('\t')}))
+    SExpr(ECall("putchar",{EChar('.')}))
+    SExpr(ECall("putchar",{EChar('\\')}))
+    SExpr(ECall("putchar",{EChar('\'')}))
+    SExpr(ECall("putchar",{EChar('\"')}))
+    SExpr(ECall("putchar",{EChar('\n')}))
+    SReturn()
+  }))
+
+GFuncDef(TVoid, "arith_assignments", {(TInt,"x") (TInt,"y") (TInt,"z")},
+  SScope({
+    SVarAssign("x", EBinOp(+, EVar("x"), EInt(1)))
+    SVarAssign("x", EBinOp(-, EVar("x"), EBinOp(*, EVar("y"), EInt(8))))
+    SVarAssign("y", EBinOp(/, EBinOp(%, EInt(12), EVar("z")), EInt(3)))
+  }))
+
+GFuncDef(TVoid, "arith_assignments_ext", {(TInt,"x")},
+  SScope({
+    SVarAssign("x", EBinOp(-, EBinOp(+, EInt(8), EUnOp(-, EInt(2))), EBinOp(*, EUnOp(-, EInt(8)), EBinOp(+, EInt(9), EInt(1)))))
+  }))
+
+GFuncDef(TVoid, "logic_operations", {(TInt,"x") (TInt,"y") (TInt,"z")},
+  SScope({
+    SVarAssign("x", EBinOp(|, EVar("y"), EBinOp(&, EVar("z"), EInt(7))))
+    SVarAssign("x", EBinOp(||, EVar("y"), EBinOp(&&, EVar("z"), EBinOp(|, EVar("y"), EInt(1)))))
+    SVarAssign("y", EBinOp(||, EBinOp(&&, EBinOp(>, EVar("x"), EVar("y")), EBinOp(<, EVar("y"), EVar("x"))), EBinOp(&&, EBinOp(>=, EVar("z"), EVar("y")), EBinOp(==, EBinOp(<=, EVar("x"), EVar("y")), EInt(0)))))
+    SVarAssign("z", EBinOp(||, EBinOp(==, EVar("x"), EVar("y")), EBinOp(!=, EVar("x"), EVar("z"))))
+  }))
+
+GFuncDef(TVoid, "logic_operations_ext", {(TInt,"x") (TInt,"y") (TInt,"z")},
+  SScope({
+    SVarAssign("y", EBinOp(&&, EBinOp(>=, EUnOp(~, EVar("z")), EVar("y")), EUnOp(!, EBinOp(<=, EVar("x"), EVar("y")))))
+    SVarAssign("x", EBinOp(&, EBinOp(<<, EVar("x"), EInt(3)), EBinOp(>>, EVar("z"), EInt(7))))
+  }))
+
+GFuncDef(TInt, "if_then_else", {(TInt,"x") (TInt,"y")},
+  SScope({
+    SIf(EBinOp(==, EVar("x"), EVar("y")),
+      SReturn(EVar("y")), )
+    SIf(EBinOp(>, EVar("x"), EInt(0)),
+      SScope({
+        SIf(EBinOp(==, EVar("x"), EInt(3)),
+          SScope({
+            SVarAssign("x", EBinOp(+, EVar("x"), EInt(1)))
+            SReturn(EVar("x"))
+          }), )
+      }),
+      SScope({
+        SVarAssign("x", EInt(7))
+        SReturn(EBinOp(+, EVar("x"), EInt(1)))
+      }))
+    SReturn(EVar("x"))
+  }))
+
+GFuncDef(TInt, "if_then_dangeling_else", {(TInt,"x")},
+  SScope({
+    SIf(EBinOp(>, EVar("x"), EInt(0)),
+      SIf(EBinOp(<, EVar("x"), EInt(10)),
+        SReturn(EBinOp(+, EVar("x"), EInt(1))),
+        SReturn(EBinOp(+, EVar("x"), EInt(2)))), )
+    SReturn(EVar("x"))
+  }))
+
+GFuncDef(TInt, "while_break", {(TInt,"x")},
+  SScope({
+    SWhile(EBinOp(<, EVar("x"), EInt(10)),
+      SScope({
+        SIf(EBinOp(==, EVar("x"), EInt(7)),
+          SBreak, )
+        SVarAssign("x", EBinOp(+, EVar("x"), EInt(1)))
+      }))
+    SReturn(EVar("x"))
+  }))
+
+GFuncDef(TVoid, "pluspluss_minusminus", {(TInt,"x")},
+  SScope({
+    SVarAssign("x", EBinOp(+, EVar("x"), EInt(1)))
+    SVarAssign("x", EBinOp(-, EVar("x"), EInt(1)))
+  }))
+
+GFuncDef(TVoid, "defining_local_variables", {},
+  SScope({
+    SVarDef(TInt, "x", EInt(1))
+    SVarDef(TInt, "y", EInt(5))
+  }))
+
+GFuncDef(TVoid, "hexadecimal_numbers", {},
+  SScope({
+    SVarDef(TInt, "x", EInt(6719))
+    SVarDef(TInt, "y", EInt(506))
+  }))
+
+GVarDef(TInt, "global_x", EBinOp(+, EInt(5), EInt(10)))
+
+GVarDecl(TInt, "global_y")
+
+GFuncDef(TInt, "use_global", {(TInt,"x")},
+  SScope({
+    SReturn(EBinOp(+, EVar("global_x"), EVar("x")))
+  }))
+
+GFuncDef(TInt, "for_loop_with_break", {(TInt,"x") (TInt,"y")},
+  SScope({
+    SScope({
+      SVarDef(TInt, "i", EInt(0))
+      SWhile(EBinOp(<, EVar("i"), EVar("x")),
+        SScope({
+          SScope({
+            SIf(EBinOp(>=, EVar("i"), EVar("y")),
+              SBreak, )
+          })
+          SVarAssign("i", EBinOp(+, EVar("i"), EInt(1)))
+        }))
+    })
+    SScope({
+      SVarDef(TInt, "i", EInt(0))
+      SWhile(EBinOp(<, EVar("i"), EVar("x")),
+        SScope({
+          SVarAssign("x", EBinOp(+, EVar("x"), EInt(1)))
+          SVarAssign("i", EBinOp(+, EVar("i"), EInt(1)))
+        }))
+    })
+    SReturn(EVar("x"))
+  }))
+
+GStruct("S1",{
+})
+
+GStruct("S2",{
+  (TInt, "x")
+  (TChar, "y")
+})
+
+GFuncDef(TVoid, "struct_arrays", {},
+  SScope({
+    SVarDef(TPoint(TIdent("S2")), "a1", ENew(TIdent("S2"), EInt(5)))
+    SArrayAssign("a1", EInt(2), "x", EInt(3))
+    SArrayAssign("a1", EInt(2), "x", EBinOp(+, EArrayAccess("a1", EInt(2), "x"), EInt(1)))
+    SArrayAssign("a1", EInt(2), "x", EBinOp(-, EArrayAccess("a1", EInt(2), "x"), EInt(1)))
+    SVarDef(TInt, "y", EBinOp(+, EArrayAccess("a1", EInt(2), "y"), EInt(1)))
+    SDelete("a1")
+  }))
+
+GFuncDef(TVoid, "int_arrays", {(TInt,"x") (TPoint(TInt),"p")},
+  SScope({
+    SVarDef(TPoint(TInt), "a", ENew(TInt, EVar("x")))
+    SVarDef(TInt, "y", EBinOp(%, EVar("x"), EInt(10)))
+    SArrayAssign("a", EInt(7),  , EArrayAccess("a", EBinOp(+, EInt(19), EVar("y")), ))
+    SArrayAssign("a", EInt(6),  , EBinOp(+, EArrayAccess("a", EInt(6), ), EInt(1)))
+    SArrayAssign("a", EInt(6),  , EBinOp(-, EArrayAccess("a", EInt(6), ), EInt(1)))
+  }))
+
+GFuncDef(TChar, "string_test", {(TInt,"x")},
+  SScope({
+    SVarDef(TPoint(TChar), "a", EString("Test\n\t\\\'\""))
+    SReturn(EArrayAccess("a", EVar("x"), ))
+  }))
+
+GFuncDef(TVoid, "print_int", {(TInt,"x")},
+  SScope({
+    SIf(EBinOp(<, EVar("x"), EInt(0)),
+      SScope({
+        SExpr(ECall("putchar",{EChar('-')}))
+        SVarAssign("x", EBinOp(*, EVar("x"), EBinOp(-, EInt(0), EInt(1))))
+      }), )
+    SVarDef(TInt, "i", EInt(1000000))
+    SWhile(EBinOp(!=, EVar("i"), EInt(0)),
+      SScope({
+        SIf(EBinOp(||, EBinOp(>=, EVar("x"), EVar("i")), EBinOp(&&, EBinOp(==, EVar("x"), EInt(0)), EBinOp(==, EVar("i"), EInt(1)))),
+          SExpr(ECall("putchar",{EBinOp(+, EChar('0'), EBinOp(/, EVar("x"), EVar("i")))})), )
+        SVarAssign("x", EBinOp(%, EVar("x"), EVar("i")))
+        SVarAssign("i", EBinOp(/, EVar("i"), EInt(10)))
+      }))
+  }))
+
+GFuncDef(TVoid, "print_int_ln", {(TInt,"x")},
+  SScope({
+    SExpr(ECall("print_int",{EVar("x")}))
+    SExpr(ECall("putchar",{EChar('\n')}))
+  }))
+
+GFuncDef(TVoid, "print_string", {(TPoint(TChar),"s")},
+  SScope({
+    SVarDef(TInt, "i", EInt(0))
+    SWhile(EArrayAccess("s", EVar("i"), ),
+      SScope({
+        SExpr(ECall("putchar",{EArrayAccess("s", EVar("i"), )}))
+        SVarAssign("i", EBinOp(+, EVar("i"), EInt(1)))
+      }))
+  }))
+
+GStruct("Tree",{
+  (TInt, "val")
+  (TPoint(TIdent("Tree")), "left")
+  (TPoint(TIdent("Tree")), "right")
+})
+
+GFuncDef(TPoint(TIdent("Tree")), "node", {(TPoint(TIdent("Tree")),"left") (TInt,"x") (TPoint(TIdent("Tree")),"right")},
+  SScope({
+    SVarDef(TPoint(TIdent("Tree")), "t", ENew(TIdent("Tree"), EInt(1)))
+    SArrayAssign("t", EInt(0), "val", EVar("x"))
+    SArrayAssign("t", EInt(0), "left", EVar("left"))
+    SArrayAssign("t", EInt(0), "right", EVar("right"))
+    SReturn(EVar("t"))
+  }))
+
+GFuncDef(TPoint(TIdent("Tree")), "leaf", {(TInt,"x")},
+  SScope({
+    SVarDef(TPoint(TIdent("Tree")), "t", ENew(TIdent("Tree"), EInt(1)))
+    SArrayAssign("t", EInt(0), "val", EVar("x"))
+    SArrayAssign("t", EInt(0), "left", EInt(0))
+    SArrayAssign("t", EInt(0), "right", EInt(0))
+    SReturn(EVar("t"))
+  }))
+
+GFuncDef(TVoid, "inorder_traversal", {(TPoint(TIdent("Tree")),"t")},
+  SScope({
+    SIf(EBinOp(==, EArrayAccess("t", EInt(0), "left"), EInt(0)),
+      SScope({
+        SExpr(ECall("print_int",{EArrayAccess("t", EInt(0), "val")}))
+        SExpr(ECall("putchar",{EChar(',')}))
+      }),
+      SScope({
+        SExpr(ECall("inorder_traversal",{EArrayAccess("t", EInt(0), "left")}))
+        SExpr(ECall("print_int",{EArrayAccess("t", EInt(0), "val")}))
+        SExpr(ECall("putchar",{EChar(',')}))
+        SExpr(ECall("inorder_traversal",{EArrayAccess("t", EInt(0), "right")}))
+      }))
+  }))
+
+GFuncDecl(TVoid, "delete_tree", {(TPoint(TIdent("Tree")),"t")})
+
+GFuncDef(TVoid, "test_recursive_data_structures", {},
+  SScope({
+    SExpr(ECall("print_string",{EString("---test-recursive-data-structures---\n")}))
+    SVarDef(TPoint(TIdent("Tree")), "t", ECall("node",{ECall("node",{ECall("leaf",{EInt(1)}) EInt(2) ECall("leaf",{EInt(3)})}) EInt(4) ECall("leaf",{EInt(5)})}))
+    SExpr(ECall("inorder_traversal",{EVar("t")}))
+    SExpr(ECall("putchar",{EChar('\n')}))
+    SExpr(ECall("delete_tree",{EVar("t")}))
+  }))
+
+GFuncDef(TVoid, "delete_tree", {(TPoint(TIdent("Tree")),"t")},
+  SScope({
+    SIf(EBinOp(!=, EArrayAccess("t", EInt(0), "left"), EInt(0)),
+      SScope({
+        SExpr(ECall("delete_tree",{EArrayAccess("t", EInt(0), "left")}))
+        SArrayAssign("t", EInt(0), "left", EInt(0))
+        SExpr(ECall("delete_tree",{EArrayAccess("t", EInt(0), "right")}))
+      }), )
+    SDelete("t")
+  }))
+
+GVarDef(TPoint(TChar), "text1", EString("Text\n"))
+
+GFuncDef(TVoid, "print_test_strings", {},
+  SScope({
+    SExpr(ECall("print_string",{EVar("text1")}))
+    SVarDef(TPoint(TChar), "text2", EString("Text2\n"))
+    SExpr(ECall("print_string",{EVar("text2")}))
+  }))
+
+GFuncDef(TInt, "main", {},
+  SScope({
+    SExpr(ECall("test_recursive_data_structures",{}))
+    SExpr(ECall("print_test_strings",{}))
+    SReturn(EInt(0))
+  }))
+
+
